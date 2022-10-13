@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://kit.fontawesome.com/c1c26ed80d.js" crossorigin="anonymous"></script>
+    <title>Dictionary</title>
+</head>
+<body style="background-color: #fff;">
+  {% include 'navbar.html' %}
+    <div class="container">
+        <div class="jumbotron">
+          <h1>Word subset</h1>      
+          <p>Enter a text with 10 or less characters. <br>
+          <h4>Click on any of the resulting words to view words that can be formed from them</h4>
+          </p>
+          <form action="{%url 'home' %}" method="POST" >
+            {% csrf_token %}
+        <div class="input-group">
+            <input type="text" class="form-control" maxlength="10" name="word" placeholder="Enter up to 10 letters">
+            <div class="input-group-btn"><input type="submit" class="btn btn btn-info"></div>
+        </div>
+        {% if final is None %}
+          <blockquote><h4><i>Your answers are one click away</i></h4></blockquote>
+        {% else %}
+        <p></p>
+        <details>
+          <summary style="cursor: pointer;"><b>{{ count }} words</b> can formed from <b>{{ words }}. Tap to view🎬</b></summary>
+            {% for word in final %}
+              <button class="btn btn btn-primary" value="{{word}}" type="submit" name="word" onclick="input.value = this.value;">{{ word }}</button>
+            {% endfor %}
+        </details>
+            </form>
+        {% endif %}
+        </div>    
+      </div>
+      <div class="container">
+        <div class="jumbotron">
+          <h1>Feature to add</h1>
+          <p>Let users create their own words</p>
+          <ul>
+            <li>Users must be authenticated to do this</li>
+          </ul>
+        </div>
+      </div>
+      {% include 'footer.html' %}
+
+<script>
+    var input = document.getElementById(search);
+</script>
+</body>
+</html>
